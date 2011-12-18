@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<videoverify>
+
+<javamail><!-- mandatory, only one -->
+	<!-- For mail addresses, you can use : "Name &lt;address@domain&gt;" for "Name <address@domain>" or directly "address@domain" as you want -->
+	<!-- The mail sender for system warning -->
+	<option name="from" value="VideoVerify &lt;root@localhost&gt;" /><!-- mandatory, only one -->
+	<!-- The mail receiver for system warning -->
+	<option name="to" value="Admin &lt;root@localhost&gt;" /><!-- mandatory, only one -->
+	<!-- The server to use for sending mails -->
+	<option name="server" value="localhost" /><!-- mandatory, only one -->
+</javamail>
+
+<usermails><!-- mandatory, only one -->
+	<!-- The mail sender for operate (VideoVerify warning) -->
+	<option name="from" value="VideoVerify &lt;root@localhost&gt;" /><!-- mandatory, only one -->
+	<!-- The mail receiver for operate (VideoVerify warning) -->
+	<option name="to" value="Operator &lt;root@localhost&gt;" /><!-- mandatory, only one -->
+</usermails>
+
+<scandir><!-- mandatory, only one -->
+	<!-- The directories to scan -->
+	<dir path="/var/medias" /><!-- mandatory, as much as you want -->
+</scandir>
+
+<!-- Set system properties -->
+<property name="executable.ffprobe" value="/opt/local/bin/ffprobe" /><!-- optional, as much as you want -->
+
+<!-- Formats for VideoVerify
+     All childs elements are parsed by hd3gtv.videoverify.FFprobeFormatreferenceXml
+-->
+<format><!-- mandatory, only one -->
+	<!-- A reference to compare with the scanned files. Set a short description in "name" -->
+	<reference name="Dif DVCPro25 PAL"><!-- mandatory, as much as you want -->
+		<!-- Informations for this reference -->
+		<recommended><!-- optional, only one -->
+			<video>DVCPro25 PAL 4:1:1</video><!-- optional, only one -->
+			<audio>1 or 2 stream, PCM Stereo Little Endian 16b 48000 Hz</audio><!-- optional, only one -->
+			<container>RAW DV (.dif)</container><!-- optional, only one -->
+		</recommended>
+		<!-- Scanned files must have this properties, all params are optional -->
+		<file mime="video/x-dv" extension="dv" /><!-- optional, only one -->
+		<container name="dv" audio_min="1" audio_max="4" video_min="1" video_max="1" data_max="0" /><!-- optional, only one -->
+		<video width="720" height="576" ratio_vga="false" chroma="4:1:1" codec="dvvideo" system="PAL" /><!-- optional, only one -->
+		<audio channels="2" codec="pcm_s16le" frequency="48000" /><!-- optional, only one -->
+	</reference>
+	<!-- Use hd3gtv.videoverify.Test as main for test a file and see what ffprobe analysis  -->
+
+	<!-- An other example -->
+	<reference name="QT DV25">
+		<recommended>
+			<video>DV25 PAL 4:2:0</video>
+			<audio>1 or 2 stream, PCM Stereo Little Endian 16b 48000 Hz</audio>
+			<container>Quicktime (.mov)</container>
+		</recommended>
+		<file mime="video/quicktime" extension="mov" />
+		<container name="mov" audio_min="1" audio_max="4" video_min="1" video_max="1" data_min="0" data_max="1" />
+		<video width="720" height="576" bitrate="28800000" ratio_4_3="true" ratio_16_9="true" ratio_vga="false" chroma="4:2:0" codec="dvvideo" framerate="25" system="PAL" />
+		<audio bitrate="1536000" channels="2" codec="pcm_s16le" frequency="48000" />
+	</reference>
+	
+</format>
+
+</videoverify>

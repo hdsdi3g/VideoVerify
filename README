@@ -1,0 +1,72 @@
+RUN THE APPLICATION
+
+Add this in the classpath : my Log2, my Re-Mime-util and JavaMail package. You don't need more.
+Min Java 1.6.
+MacOSX ok, Linux & Windows normally ok.
+
+Don't forget to setup all ffmpeg tools especially ffprobe, and add it in you PATH.
+Else set -Dexecutable.ffprobe=YourPathToFFprobeBinary in your command line, example -Dexecutable.ffprobe=/opt/local/bin/ffprobe
+
+For test with one file, use main in hd3gtv.videoverify.Test
+For standalone app, edit the config.xml file, and use main in hd3gtv.videoverify.MainClass (stop with a QUIT signal)
+For embedded this code, edit the config.xml file, and use hd3gtv.videoverify.VideoverifyService with and new() and stopService() or startService() 
+For video analyst (like a ffprobe Java SDK), use hd3gtv.ffprobe.FFprobe, and enjoy
+
+Edit xml configuration cause a restart service only if the new xml is valid ( = if the xml parser is ok for this new xml).
+
+=========================================================================================================================
+ABOUT
+
+There is NO GUI (no user interface), and NO interactive mode in command line.
+
+La traduction en français est disponible pour tous les envois de mails (french translation is available all send mail).
+
+=========================================================================================================================
+TODO
+
+ - Windows and OSX service
+ - documentation in code for a cool javadoc
+
+=========================================================================================================================
+FILES YOU CAN USE WITH ffprobe AND ffmpeg (KNOW LIMITATIONS)
+
+Tested with this version, from MacPort :
+ffprobe version 0.7.8, Copyright (c) 2007-2011 the FFmpeg developers
+  configuration: --prefix=/opt/local --enable-gpl --enable-postproc --enable-swscale --enable-avfilter
+  --enable-libmp3lame --enable-libvorbis --enable-libtheora --enable-libdirac
+  --enable-libschroedinger --enable-libopenjpeg --enable-libxvid --enable-libx264 --enable-libvpx --enable-libspeex
+  --mandir=/opt/local/share/man --enable-shared --enable-pthreads
+  --cc=/usr/bin/gcc-4.2 --arch=x86_64 --enable-yasm
+  libavutil    50. 43. 0 / 50. 43. 0
+  libavcodec   52.123. 0 / 52.123. 0
+  libavformat  52.111. 0 / 52.111. 0
+  libavdevice  52.  5. 0 / 52.  5. 0
+  libavfilter   1. 80. 0 /  1. 80. 0
+  libswscale    0. 14. 1 /  0. 14. 1
+  libpostproc  51.  2. 0 / 51.  2. 0
+
+Test files are produced by Rhozet Carbon Coder and Adobe Media Encoder
+Beware : I used the same video file for source, and some container have added or removed some images in output files...
+I think it's just a problem with the duration computed by ffprobe. Test it if you need precise durations.
+
+Container+format   | Compatibility
+Quicktime/Omneon   OK; multiplex bitrate bug (too small)
+AAC                OK
+MXF/D10/OP1A       OK
+MP4/AVCIntra/EAC3  OK
+GXF/MPEG2HD        OK; multiplex bitrate bug (negative), data track, double mono audio channels
+MXF/Quantel        OK; 4 ch audio channels
+DV RAW             OK
+MP4 h264 aac       OK
+FLV                OK
+MPEGTS/h264/HeAAC  OK; no video bitrate
+WMV                OK
+VC1                OK
+MPEG2 422P@ML      OK
+MXF/XDCAM HD       OK; 4 ch audio mono channels
+MSS/STD            OK
+AIFF               OK
+MPEG2/Omneon       OK
+LXF                FAIL
+AC3                FAIL
+AS02               FAIL
